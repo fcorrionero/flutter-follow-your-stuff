@@ -7,5 +7,4 @@ abstract class BaseModel {
 
   int getPrimaryKey();
 
-  static BaseModel fromMap(Map<String, dynamic> map)
 }
