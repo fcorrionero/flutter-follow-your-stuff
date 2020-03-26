@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:followyourstuff/models/BaseModel.dart';
 
-class Thing {
+class Thing extends BaseModel {
 
   static String table = 'things';
 
@@ -24,6 +24,10 @@ class Thing {
 
   String getTable() {
     return table;
+  }
+
+  int getPrimaryKey() {
+    return id;
   }
 
   static Thing fromMap(Map<String, dynamic> map) {

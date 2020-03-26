@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:followyourstuff/models/BaseModel.dart';
 import 'package:followyourstuff/models/Thing.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -26,12 +27,12 @@ abstract class DB {
 
   static Future<List<Map<String, dynamic>>> query(String table) async => _db.query(table);
 
-  static Future<int> insert(Thing model) async =>
-      await _db.insert(Thing.table, model.toMap());
+  static Future<int> insert(BaseModel model) async =>
+      await _db.insert(BaseModel.table, model.toMap());
 
-  static Future<int> update(String table, Thing model) async =>
-      await _db.update(model.getTable(), model.toMap(), where: 'id = ?', whereArgs: [model.id]);
+  static Future<int> update(String table, BaseModel model) async =>
+      await _db.update(model.getTable(), model.toMap(), where: 'id = ?', whereArgs: [model.getPrimaryKey()]);
 
-  static Future<int> delete(Thing model) async =>
-      await _db.delete(Thing.table, where: 'id = ?', whereArgs: [model.id]);
+  static Future<int> delete(BaseModel model) async =>
+      await _db.delete(BaseModel.table, where: 'id = ?', whereArgs: [model.getPrimaryKey()]);
 }
