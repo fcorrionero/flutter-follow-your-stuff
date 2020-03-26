@@ -1,6 +1,25 @@
 import 'package:followyourstuff/models/Thing.dart';
 import 'package:sqfentity_gen/sqfentity_gen.dart';
 
+const elementTable = SqfEntityTable(
+    tableName: 'elements',
+    primaryKeyName: 'id',
+    primaryKeyType: PrimaryKeyType.integer_auto_incremental,
+    useSoftDeleting: true,
+    modelName: 'Element',
+    fields: [
+      SqfEntityField('name', DbType.text),
+      SqfEntityField('description', DbType.text),
+      SqfEntityField('createdAt', DbType.date),
+      SqfEntityFieldRelationship(
+        parentTable: thingTable,
+        deleteRule: DeleteRule.CASCADE,
+        defaultValue: '0',
+        fieldName: 'thingId',
+      )
+    ],
+);
+
 class ElementTable extends SqfEntityTableBase {
   ElementTable() {
     tableName       = 'elements';

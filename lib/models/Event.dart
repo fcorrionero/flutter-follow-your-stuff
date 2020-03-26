@@ -1,6 +1,25 @@
 import 'package:followyourstuff/models/Property.dart';
 import 'package:sqfentity_gen/sqfentity_gen.dart';
 
+
+const eventTable = SqfEntityTable(
+  tableName: 'events',
+  primaryKeyName: 'id',
+  primaryKeyType: PrimaryKeyType.integer_auto_incremental,
+  useSoftDeleting: true,
+  modelName: 'Event',
+  fields: [
+    SqfEntityField('description', DbType.text),
+    SqfEntityField('createdAt', DbType.date),
+    SqfEntityFieldRelationship(
+        parentTable: propertyTable,
+        deleteRule: DeleteRule.CASCADE,
+        defaultValue: '0',
+        fieldName: 'propertyId'
+    )
+  ],
+);
+
 class EventTable extends SqfEntityTableBase {
   EventTable() {
     tableName       = 'properties';

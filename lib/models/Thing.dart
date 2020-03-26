@@ -1,6 +1,18 @@
 import 'package:followyourstuff/models/Element.dart' as Element;
 import 'package:sqfentity_gen/sqfentity_gen.dart';
 
+const thingTable = SqfEntityTable(
+  tableName: 'things',
+  primaryKeyName: 'id',
+  primaryKeyType: PrimaryKeyType.integer_auto_incremental,
+  useSoftDeleting: true,
+  modelName: 'Thing',
+  fields: [
+    SqfEntityField('name', DbType.text),
+    SqfEntityField('createdAt', DbType.date)
+  ]
+);
+
 class ThingTable extends SqfEntityTableBase {
   ThingTable() {
     tableName       = 'things';
