@@ -8,9 +8,11 @@ class HomePage extends StatefulWidget {
 
   @override
   _HomePageState createState() => _HomePageState();
+
 }
 
 class _HomePageState extends State<HomePage> {
+
   List<Thing> things = [];
 
   @override
@@ -20,9 +22,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void refresh() async {
-
     List<Map<String, dynamic>> _results = await DB.query(Thing.table);
-    things = _results.map((item) => Thing.fromMap(item)).toList();
+    this.things = _results.map((item) => Thing.fromMap(item)).toList();
     setState(() { });
   }
 
@@ -34,40 +35,39 @@ class _HomePageState extends State<HomePage> {
           child: Text('Follow Your Stuff'),
         ),
       ),
-      body: Container(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            children: <Widget>[
-              for (var item in things)
-                GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ThingPage(thing: item) )
-                      );
-                    },
-                    child: Card(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Container(
-                              padding: const EdgeInsets.all(8),
-                              child: Text(item.name)
-                          )
-                        ],
-                      ),
+      body: ListView.separated(
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ThingPage(thing: this.things[index]) )
+                  );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 1,
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                        this.things[index].name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20
+                        )
                     )
+                  )
                 )
-            ],
-          )
-      ),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) => const Divider(),
+          itemCount: this.things.length),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NewThingForm() ),
           ).then((value) {
-            refresh();
+            this.refresh();
           });
         },
         label: Text('New thing'),

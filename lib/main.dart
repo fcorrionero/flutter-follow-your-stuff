@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter/rendering.dart';
 import 'package:followyourstuff/services/db.dart';
 import 'pages/home_page.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-
+  //debugPaintPointersEnabled = true;
   await DB.init();
   runApp(MyApp());
 }
