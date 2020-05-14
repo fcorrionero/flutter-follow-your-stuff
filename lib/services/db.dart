@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:followyourstuff/models/BaseModel.dart';
-import 'package:followyourstuff/models/Thing.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class DB {
@@ -22,17 +21,25 @@ abstract class DB {
   }
 
   static void onCreate(Database db, int version) async {
-    await db.execute("CREATE TABLE things(id INTEGER PRIMARY KEY autoincrement, name TEXT, createdAt TEXT)");
+    await db.execute("CREATE TABLE IF NOT EXISTS things(id INTEGER PRIMARY KEY autoincrement, name TEXT, createdAt TEXT)");
+    await db.execute("CREATE TABLE IF NOT EXISTS elements(id INTEGER PRIMARY KEY autoincrement, name TEXT, createdAt TEXT, thingId INTEGER)");
   }
 
   static Future<List<Map<String, dynamic>>> query(String table) async => _db.query(table);
 
+  static Database getDB() {
+    return _db;
+  }
+
   static Future<int> insert(BaseModel model) async =>
-      await _db.insert(BaseModel.table, model.toMap());
+      await _db.insert(model.getTable(), model.toMap());
 
   static Future<int> update(String table, BaseModel model) async =>
       await _db.update(model.getTable(), model.toMap(), where: 'id = ?', whereArgs: [model.getPrimaryKey()]);
 
   static Future<int> delete(BaseModel model) async =>
-      await _db.delete(BaseModel.table, where: 'id = ?', whereArgs: [model.getPrimaryKey()]);
+      await _db.delete(model.getTable(), where: 'id = ?', whereArgs: [model.getPrimaryKey()]);
+
+  static Future<void> execute(String sql) async =>
+      await _db.execute(sql);
 }

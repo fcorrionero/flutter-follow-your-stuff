@@ -1,27 +1,129 @@
 import 'package:flutter/material.dart';
 import 'package:followyourstuff/models/Thing.dart';
+import 'package:followyourstuff/models/Element.dart' as element;
+import 'package:intl/intl.dart';
+import 'package:followyourstuff/pages/element/new_element_page.dart';
+import 'package:followyourstuff/services/db.dart';
 
-class ThingPage extends StatelessWidget {
+class ThingPage extends StatefulWidget {
 
-  final Thing thing;
+  Thing thing;
 
   ThingPage({Key key, @required this.thing}) : super(key: key);
+
+  @override
+  _ThingPageState createState() => _ThingPageState();
+
+}
+
+class _ThingPageState extends State<ThingPage> {
+
+  List<element.Element> elements = [];
+
+  @override
+  void initState() {
+    this.refresh();
+    super.initState();
+  }
+
+  void refresh() async {
+    List<Map<String, dynamic>> _results = await DB.getDB().query(
+        element.Element.table,
+        where: 'thingId = ?',
+        whereArgs: [widget.thing.id]
+    );
+    this.elements = _results.map((item) => element.Element.fromMap(item)).toList();
+    for (var item in this.elements) {
+      print(item.name);
+    }
+    setState(() { });
+  }
+
+  Widget buildTitleSection(Thing thing, BuildContext context) {
+    DateTime createdAt = DateTime.parse(widget.thing.createdAt);
+    String createdAtFormatted = new DateFormat.yMMMMd().add_jm().format(createdAt);
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Text(
+                      widget.thing.name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15
+                      ),
+                    ),
+                  ),
+                  Text(
+                      createdAtFormatted,
+                      style: TextStyle(color: Colors.grey[500])
+                  )
+                ],
+              )
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildBodySection(BuildContext context) {
+    return Flexible(
+      child: ListView.separated(
+          padding: const EdgeInsets.all(20),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                print('Pulsed');
+              },
+              child: Container(
+                  height: 35,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.bookmark_border),
+                      Text(this.elements[index].name)
+                    ],
+                  )
+              ),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) => const Divider(),
+          itemCount: this.elements.length
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar (
-          title: Text('FYS - Thing')
+          title: Text('FYS - ' + widget.thing.name)
       ),
-      body: Center(
-        child: Text(thing.name),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          buildTitleSection(widget.thing, context),
+          buildBodySection(context),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NewElementForm(widget.thing) ),
+          ).then((value) {
+            this.refresh();
+          });
         },
-        label: Text(''),
-        icon: Icon(Icons.arrow_back),
+        label: Text('Add'),
+        icon: Icon(Icons.add),
         backgroundColor: Colors.indigo,
       ),
     );
