@@ -7,9 +7,9 @@ class Property extends BaseModel{
   final int id;
   final String name;
   final String createdAt;
-  final int elementId;
+  final int thingId;
 
-  Property({this.id, this.name, this.createdAt, this.elementId});
+  Property({this.id, this.name, this.createdAt, this.thingId});
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
@@ -20,7 +20,7 @@ class Property extends BaseModel{
     return {
       'name': name,
       'createdAt': createdAt,
-      'thingId': elementId
+      'thingId': thingId
     };
   }
 
@@ -37,7 +37,7 @@ class Property extends BaseModel{
         id: map['id'],
         name: map['name'],
         createdAt: map['createdAt'],
-        elementId: map['elementId']
+        thingId: map['thingId']
     );
   }
 }
