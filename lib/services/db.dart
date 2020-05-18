@@ -23,6 +23,7 @@ abstract class DB {
   static void onCreate(Database db, int version) async {
     await db.execute("CREATE TABLE IF NOT EXISTS things(id INTEGER PRIMARY KEY autoincrement, name TEXT, createdAt TEXT)");
     await db.execute("CREATE TABLE IF NOT EXISTS elements(id INTEGER PRIMARY KEY autoincrement, name TEXT, createdAt TEXT, thingId INTEGER)");
+    await db.execute("CREATE TABLE IF NOT EXISTS properties(id INTEGER PRIMARY KEY autoincrement, name TEXT, createdAt TEXT, thingId INTEGER)");
   }
 
   static Future<List<Map<String, dynamic>>> query(String table) async => _db.query(table);

@@ -1,6 +1,6 @@
 import 'package:followyourstuff/models/BaseModel.dart';
 
-class Element extends BaseModel{
+class Element extends BaseModel {
 
   static String table = 'elements';
 

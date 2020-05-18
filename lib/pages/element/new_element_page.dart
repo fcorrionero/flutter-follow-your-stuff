@@ -37,11 +37,15 @@ class NewElementFormState extends State<NewElementForm> {
             body: Builder(
               builder: (context) =>
                   Container(
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         TextFormField(
                           controller: _elementNameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Element Name'
+                          ),
                           validator: (value) {
                             if(value.isEmpty) {
                               return 'Please enter some text';
@@ -51,8 +55,9 @@ class NewElementFormState extends State<NewElementForm> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16.0),
                           child: RaisedButton(
+                            color: Colors.indigo,
                             onPressed: () => _processForm(context),
-                            child: Text('Submit'),
+                            child: Text('Submit', style: TextStyle(color: Colors.white)),
                           ),
                         )
                       ],

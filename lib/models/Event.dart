@@ -5,20 +5,20 @@ class Event extends BaseModel{
   static String table = 'events';
 
   final int id;
-  final String name;
+  final String description;
   final String createdAt;
   final int propertyId;
 
-  Event({this.id, this.name, this.createdAt, this.propertyId});
+  Event({this.id, this.description, this.createdAt, this.propertyId});
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
-      'name': name,
+      'description': description,
       'createdAt': createdAt
     };
     if (id != null) { map['id'] = id; }
     return {
-      'name': name,
+      'description': description,
       'createdAt': createdAt,
       'thingId': propertyId
     };
@@ -35,7 +35,7 @@ class Event extends BaseModel{
   static Event fromMap(Map<String, dynamic> map) {
     return Event(
         id: map['id'],
-        name: map['name'],
+        description: map['description'],
         createdAt: map['createdAt'],
         propertyId: map['propertyId']
     );
