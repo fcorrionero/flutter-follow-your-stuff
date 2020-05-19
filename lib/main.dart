@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter/rendering.dart';
-import 'package:followyourstuff/services/db.dart';
-import 'pages/home_page.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'Application/pages/home_page.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

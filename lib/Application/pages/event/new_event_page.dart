@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:followyourstuff/models/Element.dart' as ElementModel;
-import 'package:followyourstuff/models/Thing.dart';
-import 'package:followyourstuff/models/Property.dart';
-import 'package:followyourstuff/services/db.dart';
+import 'package:followyourstuff/Application/DTO/EventDTO.dart';
+import 'package:followyourstuff/Domain/Repositoy/EventRepository.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/SqliteEventRepository.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/Element.dart' as ElementModel;
+import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/Property.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
@@ -24,6 +27,8 @@ class NewEventForm extends StatefulWidget {
 
 class NewEventFormState extends State<NewEventForm> {
   final _formKey = GlobalKey<FormState>();
+
+  EventRepository repository = SqliteEventRepository();
 
   TextEditingController descriptionController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -130,7 +135,7 @@ class NewEventFormState extends State<NewEventForm> {
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             child: RaisedButton(
                               color: Colors.indigo,
-                              onPressed: () => _processForm(context),
+                              onPressed: () => _processForm(context, _selectedProperty, descriptionController.text, dateController.text),
                               child: Text('Submit', style: TextStyle(color: Colors.white)),
                             ),
                           )
@@ -201,7 +206,13 @@ class NewEventFormState extends State<NewEventForm> {
     await DB.insert(model);
   }
 
-  void _processForm(BuildContext context) async  {
+  void _processForm(BuildContext context, int propertyId, String description, String dateTime) async  {
+      EventDTO eventDTO = EventDTO(
+        description, dateTime, propertyId,widget.element.id
+      );
+
+      this.repository.insertEvent(eventDTO);
+
       Navigator.pop(context);
   }
 }

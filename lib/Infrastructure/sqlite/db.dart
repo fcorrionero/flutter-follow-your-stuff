@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:followyourstuff/models/BaseModel.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/BaseModel.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class DB {
@@ -24,6 +24,7 @@ abstract class DB {
     await db.execute("CREATE TABLE IF NOT EXISTS things(id INTEGER PRIMARY KEY autoincrement, name TEXT, createdAt TEXT)");
     await db.execute("CREATE TABLE IF NOT EXISTS elements(id INTEGER PRIMARY KEY autoincrement, name TEXT, createdAt TEXT, thingId INTEGER)");
     await db.execute("CREATE TABLE IF NOT EXISTS properties(id INTEGER PRIMARY KEY autoincrement, name TEXT, createdAt TEXT, thingId INTEGER)");
+    await db.execute("CREATE TABLE IF NOT EXISTS events(id INTEGER PRIMARY KEY autoincrement, description TEXT, createdAt TEXT, propertyId INTEGER, elementId INTEGER)");
   }
 
   static Future<List<Map<String, dynamic>>> query(String table) async => _db.query(table);

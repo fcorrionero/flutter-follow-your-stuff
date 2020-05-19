@@ -1,4 +1,4 @@
-import 'package:followyourstuff/models/BaseModel.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/BaseModel.dart';
 
 class Thing extends BaseModel {
 

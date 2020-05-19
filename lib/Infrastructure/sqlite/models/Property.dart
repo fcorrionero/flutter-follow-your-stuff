@@ -1,15 +1,15 @@
-import 'package:followyourstuff/models/BaseModel.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/BaseModel.dart';
 
-class Element extends BaseModel {
+class Property extends BaseModel{
 
-  static String table = 'elements';
+  static String table = 'properties';
 
   final int id;
   final String name;
   final String createdAt;
   final int thingId;
 
-  Element({this.id, this.name, this.createdAt, this.thingId});
+  Property({this.id, this.name, this.createdAt, this.thingId});
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
@@ -32,8 +32,8 @@ class Element extends BaseModel {
     return id;
   }
 
-  static Element fromMap(Map<String, dynamic> map) {
-    return Element(
+  static Property fromMap(Map<String, dynamic> map) {
+    return Property(
         id: map['id'],
         name: map['name'],
         createdAt: map['createdAt'],
