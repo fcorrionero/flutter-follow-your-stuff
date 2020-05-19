@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:followyourstuff/models/Thing.dart';
-import 'package:followyourstuff/services/db.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
 
 class NewThingForm extends StatefulWidget {
   @override

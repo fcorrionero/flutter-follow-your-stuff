@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:followyourstuff/models/Thing.dart';
-import 'package:followyourstuff/models/Element.dart' as element;
-import 'package:followyourstuff/pages/element/element_detail_page.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/Element.dart' as element;
+import 'package:followyourstuff/Application/pages/element/element_detail_page.dart';
 import 'package:intl/intl.dart';
-import 'package:followyourstuff/pages/element/new_element_page.dart';
-import 'package:followyourstuff/services/db.dart';
+import 'package:followyourstuff/Application/pages/element/new_element_page.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
 
 class ThingPage extends StatefulWidget {
 

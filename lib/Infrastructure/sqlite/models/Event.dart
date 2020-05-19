@@ -1,4 +1,4 @@
-import 'package:followyourstuff/models/BaseModel.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/BaseModel.dart';
 
 class Event extends BaseModel{
 
@@ -8,8 +8,9 @@ class Event extends BaseModel{
   final String description;
   final String createdAt;
   final int propertyId;
+  final int elementId;
 
-  Event({this.id, this.description, this.createdAt, this.propertyId});
+  Event({this.id, this.description, this.createdAt, this.propertyId, this.elementId});
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
@@ -20,7 +21,8 @@ class Event extends BaseModel{
     return {
       'description': description,
       'createdAt': createdAt,
-      'thingId': propertyId
+      'propertyId': propertyId,
+      'elementId': elementId,
     };
   }
 
@@ -37,7 +39,8 @@ class Event extends BaseModel{
         id: map['id'],
         description: map['description'],
         createdAt: map['createdAt'],
-        propertyId: map['propertyId']
+        propertyId: map['propertyId'],
+        elementId: map['elementId']
     );
   }
 }

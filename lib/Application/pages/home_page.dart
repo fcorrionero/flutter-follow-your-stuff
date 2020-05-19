@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:followyourstuff/pages/thing_page.dart';
-import 'package:followyourstuff/pages/new_thing_page.dart';
-import 'package:followyourstuff/models/Thing.dart';
-import 'package:followyourstuff/services/db.dart';
+import 'package:followyourstuff/Application/pages/thing/thing_page.dart';
+import 'package:followyourstuff/Application/pages/thing/new_thing_page.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
 
 class HomePage extends StatefulWidget {
 

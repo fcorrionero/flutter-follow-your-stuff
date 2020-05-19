@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:followyourstuff/models/Element.dart' as ElementModel;
-import 'package:followyourstuff/models/Thing.dart';
-import 'package:followyourstuff/services/db.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/models/Element.dart' as ElementModel;
+import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
 
 class NewElementForm extends StatefulWidget {
 
