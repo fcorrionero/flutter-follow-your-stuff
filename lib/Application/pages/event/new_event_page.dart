@@ -1,20 +1,22 @@
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:followyourstuff/Application/DTO/EventDTO.dart';
+import 'package:followyourstuff/Application/DTO/PropertyDTO.dart';
+import 'package:followyourstuff/Domain/Aggregate/ElementAggregate.dart';
+import 'package:followyourstuff/Domain/Aggregate/PropertyAggregate.dart';
+import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/EventRepository.dart';
+import 'package:followyourstuff/Domain/Repositoy/PropertyRepository.dart';
 import 'package:followyourstuff/Infrastructure/sqlite/SqliteEventRepository.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/models/Element.dart' as ElementModel;
-import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/models/Property.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/SqlitePropertyRepository.dart';
 import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class NewEventForm extends StatefulWidget {
 
-  ElementModel.Element element;
-  Thing thing;
+  ElementAggregate element;
+  ThingAggregate thing;
 
-  NewEventForm(ElementModel.Element element, Thing thing) {
+  NewEventForm(ElementAggregate element, ThingAggregate thing) {
     this.element = element;
     this.thing = thing;
   }
@@ -29,11 +31,12 @@ class NewEventFormState extends State<NewEventForm> {
   final _formKey = GlobalKey<FormState>();
 
   EventRepository repository = SqliteEventRepository();
+  PropertyRepository propertyRepository = SqlitePropertyRepository();
 
   TextEditingController descriptionController = TextEditingController();
   TextEditingController dateController = TextEditingController();
 
-  List<Property> properties = [];
+  List<PropertyAggregate> properties = [];
   List<DropdownMenuItem<int>> propertiesList = [];
 
   int _selectedProperty = 0;
@@ -45,13 +48,7 @@ class NewEventFormState extends State<NewEventForm> {
   }
 
   void refresh() async {
-    List<Map<String, dynamic>> _results = await DB.getDB().query(
-        Property.table,
-        where: 'thingId = ?',
-        whereArgs: [widget.thing.id]
-    );
-    this.properties = _results.map((item) => Property.fromMap(item)).toList();
-
+    this.properties = await this.propertyRepository.getAllPropertiesByThingId(widget.thing.id);
     setState(() { });
   }
 
@@ -200,10 +197,10 @@ class NewEventFormState extends State<NewEventForm> {
     );
   }
 
-  void _insertProperty(String name, int elemntId) async {
+  void _insertProperty(String name, int thingId) async {
     DateTime now = new DateTime.now();
-    Property model = new Property(thingId: elemntId,name:name, createdAt: now.toIso8601String());
-    await DB.insert(model);
+    PropertyDTO propertyDTO = PropertyDTO(name, now.toIso8601String(), thingId);
+    await this.propertyRepository.insertProperty(propertyDTO);
   }
 
   void _processForm(BuildContext context, int propertyId, String description, String dateTime) async  {

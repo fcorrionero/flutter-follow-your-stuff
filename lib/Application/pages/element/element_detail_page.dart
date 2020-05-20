@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:followyourstuff/Application/pages/event/new_event_page.dart';
+import 'package:followyourstuff/Domain/Aggregate/ElementAggregate.dart';
 import 'package:followyourstuff/Domain/Aggregate/EventAggregate.dart';
+import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/EventRepository.dart';
 import 'package:followyourstuff/Infrastructure/sqlite/SqliteEventRepository.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/models/Element.dart' as ElementModel;
-import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
 import 'package:intl/intl.dart';
 
 
 class ElementPage extends StatefulWidget {
 
-  Thing thing;
-  ElementModel.Element element;
+  ThingAggregate thing;
+  ElementAggregate element;
 
   ElementPage({Key key, @required this.thing, @required this.element}) : super(key:key);
 
@@ -34,6 +34,7 @@ class _ElementPageState extends State<ElementPage> {
 
   void refresh() async {
     this.events = await this.repository.findEventsByElementId(widget.element.id);
+
     setState(() { });
   }
 
@@ -53,7 +54,7 @@ class _ElementPageState extends State<ElementPage> {
     );
   }
 
-  Widget buildTitleSection(ElementModel.Element element, BuildContext context) {
+  Widget buildTitleSection(ElementAggregate element, BuildContext context) {
     DateTime createdAt = DateTime.parse(widget.element.createdAt);
     String createdAtFormatted = new DateFormat.yMMMMd().add_jm().format(createdAt);
     return Container(

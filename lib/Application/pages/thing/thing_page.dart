@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/models/Element.dart' as element;
 import 'package:followyourstuff/Application/pages/element/element_detail_page.dart';
-import 'package:intl/intl.dart';
 import 'package:followyourstuff/Application/pages/element/new_element_page.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'package:followyourstuff/Domain/Aggregate/ElementAggregate.dart';
+import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
+import 'package:followyourstuff/Domain/Repositoy/ElementRepository.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/SqliteElementRepository.dart';
+import 'package:intl/intl.dart';
 
 class ThingPage extends StatefulWidget {
 
-  Thing thing;
+  ThingAggregate thing;
 
   ThingPage({Key key, @required this.thing}) : super(key: key);
 
@@ -19,7 +20,9 @@ class ThingPage extends StatefulWidget {
 
 class _ThingPageState extends State<ThingPage> {
 
-  List<element.Element> elements = [];
+  List<ElementAggregate> elements = [];
+
+  ElementRepository elementRepository = SqliteElementRepository();
 
   @override
   void initState() {
@@ -28,16 +31,11 @@ class _ThingPageState extends State<ThingPage> {
   }
 
   void refresh() async {
-    List<Map<String, dynamic>> _results = await DB.getDB().query(
-        element.Element.table,
-        where: 'thingId = ?',
-        whereArgs: [widget.thing.id]
-    );
-    this.elements = _results.map((item) => element.Element.fromMap(item)).toList();
+    this.elements = await elementRepository.findElementsByThingId(widget.thing.id);
     setState(() { });
   }
 
-  Widget buildTitleSection(Thing thing, BuildContext context) {
+  Widget buildTitleSection(ThingAggregate thing, BuildContext context) {
     DateTime createdAt = DateTime.parse(widget.thing.createdAt);
     String createdAtFormatted = new DateFormat.yMMMMd().add_jm().format(createdAt);
     return Container(

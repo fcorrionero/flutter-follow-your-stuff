@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/models/Element.dart' as ElementModel;
-import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'package:followyourstuff/Application/DTO/ElementDTO.dart';
+import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
+import 'package:followyourstuff/Domain/Repositoy/ElementRepository.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/SqliteElementRepository.dart';
 
 class NewElementForm extends StatefulWidget {
 
-  Thing thing;
+  ThingAggregate thing;
 
-  NewElementForm(Thing thing) {
+  NewElementForm(ThingAggregate thing) {
     this.thing = thing;
   }
 
@@ -21,6 +22,8 @@ class NewElementFormState extends State<NewElementForm> {
   final _formKey = GlobalKey<FormState>();
 
   final _elementNameController = TextEditingController();
+
+  ElementRepository elementRepository = SqliteElementRepository();
 
   createState() {
 
@@ -74,9 +77,10 @@ class NewElementFormState extends State<NewElementForm> {
           .showSnackBar(SnackBar(content: Text('Processing Data')));
       String elementName = _elementNameController.text;
       DateTime now = new DateTime.now();
-      ElementModel.Element model = new ElementModel.Element(id: null, name:elementName, createdAt: now.toIso8601String(), thingId: widget.thing.id);
-      await DB.insert(model);
-      print(_formKey.currentState);
+
+      ElementDTO elementDTO = ElementDTO(elementName,now.toIso8601String(),widget.thing.id);
+      this.elementRepository.insertElement(elementDTO);
+
       Navigator.pop(context);
     }
   }
