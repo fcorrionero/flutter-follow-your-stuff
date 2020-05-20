@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'package:followyourstuff/Application/DTO/ThingDTO.dart';
+import 'package:followyourstuff/Domain/Repositoy/ThingRepository.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/SqliteThingRepository.dart';
 
 class NewThingForm extends StatefulWidget {
   @override
@@ -12,7 +13,10 @@ class NewThingForm extends StatefulWidget {
 class NewThingFormState extends State<NewThingForm> {
   final _formKey = GlobalKey<FormState>();
 
+  ThingRepository thingRepository = SqliteThingRepository();
+
   final _thingNameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -61,9 +65,10 @@ class NewThingFormState extends State<NewThingForm> {
           .showSnackBar(SnackBar(content: Text('Processing Data')));
       String thingName = _thingNameController.text;
       DateTime now = new DateTime.now();
-      Thing model = new Thing(id: null, name:thingName, createdAt: now.toIso8601String());
-      await DB.insert(model);
-      print(_formKey.currentState);
+
+      ThingDTO thingDTO = ThingDTO(thingName, now.toIso8601String());
+      await this.thingRepository.insertThing(thingDTO);
+
       Navigator.pop(context);
     }
   }

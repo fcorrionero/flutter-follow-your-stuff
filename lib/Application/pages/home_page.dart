@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:followyourstuff/Application/pages/thing/thing_page.dart';
 import 'package:followyourstuff/Application/pages/thing/new_thing_page.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/models/Thing.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'package:followyourstuff/Application/pages/thing/thing_page.dart';
+import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
+import 'package:followyourstuff/Domain/Repositoy/ThingRepository.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/SqliteThingRepository.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -13,7 +14,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  List<Thing> things = [];
+  List<ThingAggregate> things = [];
+
+  ThingRepository thingRepository = SqliteThingRepository();
 
   @override
   void initState() {
@@ -22,8 +25,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void refresh() async {
-    List<Map<String, dynamic>> _results = await DB.query(Thing.table);
-    this.things = _results.map((item) => Thing.fromMap(item)).toList();
+    this.things = await this.thingRepository.findAllThings();
     setState(() { });
   }
 

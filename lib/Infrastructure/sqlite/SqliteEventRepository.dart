@@ -3,7 +3,7 @@ import 'package:followyourstuff/Domain/Repositoy/EventRepository.dart';
 import 'package:followyourstuff/Domain/Aggregate/EventAggregate.dart';
 import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
 
-class SqliteEventRepository extends EventRepository {
+class SqliteEventRepository implements EventRepository {
 
   @override
   Future<List<EventAggregate>> findEventsByElementId(int elementId) async {
