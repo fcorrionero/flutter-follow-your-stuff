@@ -91,7 +91,11 @@ class _ElementPageState extends State<ElementPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => NewEventForm(widget.element, widget.thing))
-                  );
+                  ).then((value) => {
+                    setState(() {
+                      this.refresh();
+                    })
+                  });
                   break;
                 default:
                   print(newValue);
@@ -118,7 +122,7 @@ class _ElementPageState extends State<ElementPage> {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-
+                print(this.events[index].id);
               },
               child: Container(
 
