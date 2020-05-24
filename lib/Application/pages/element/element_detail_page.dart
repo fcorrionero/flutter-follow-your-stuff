@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:followyourstuff/Application/pages/event/event_detail_page.dart';
 import 'package:followyourstuff/Application/pages/event/new_event_page.dart';
 import 'package:followyourstuff/Domain/Aggregate/ElementAggregate.dart';
 import 'package:followyourstuff/Domain/Aggregate/EventAggregate.dart';
+import 'package:followyourstuff/Domain/Aggregate/PropertyAggregate.dart';
 import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/EventRepository.dart';
+import 'package:followyourstuff/Domain/Repositoy/PropertyRepository.dart';
 import 'package:followyourstuff/Infrastructure/sqlite/SqliteEventRepository.dart';
+import 'package:followyourstuff/Infrastructure/sqlite/SqlitePropertyRepository.dart';
 import 'package:intl/intl.dart';
 
 
@@ -23,8 +27,10 @@ class ElementPage extends StatefulWidget {
 class _ElementPageState extends State<ElementPage> {
 
   List<EventAggregate> events = [];
+  List<PropertyAggregate> eventTypes = [];
 
   EventRepository repository = SqliteEventRepository();
+  PropertyRepository propertyRepository = SqlitePropertyRepository();
 
   @override
   void initState() {
@@ -34,6 +40,7 @@ class _ElementPageState extends State<ElementPage> {
 
   void refresh() async {
     this.events = await this.repository.findEventsByElementId(widget.element.id);
+    this.eventTypes = await this.propertyRepository.getAllPropertiesByThingId(widget.thing.id);
 
     setState(() { });
   }
@@ -48,6 +55,7 @@ class _ElementPageState extends State<ElementPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           buildTitleSection(widget.element, context),
+          buildEventTypeMenu(context),
           buildBodySection(context),
         ],
       ),
@@ -122,7 +130,14 @@ class _ElementPageState extends State<ElementPage> {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                print(this.events[index].id);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EventPage(this.events[index]))
+                ).then((value) => {
+                  setState(() {
+                    this.refresh();
+                  })
+                });
               },
               child: Container(
 
@@ -154,6 +169,27 @@ class _ElementPageState extends State<ElementPage> {
           itemCount: this.events.length
       ),
     );
+  }
+
+  Widget buildEventTypeMenu(BuildContext contex) {
+    return Container(
+      height: 20,
+      child:
+      ListView.builder(
+        // This next line does the trick.
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (BuildContext context, int index){
+          return FlatButton(
+            child: Text(this.eventTypes[index].name),
+            onPressed: ()=>{},
+          );
+        },
+        itemCount: this.eventTypes.length,
+      ),
+    );
+
+
   }
 
 }

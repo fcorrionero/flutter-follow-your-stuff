@@ -52,5 +52,11 @@ class SqliteEventRepository implements EventRepository {
 
   }
 
+  @override
+  Future<void> deleteEvent(int eventId) async{
+    String sql = 'DELETE FROM events WHERE id=?';
+    await DB.getDB().rawDelete(sql,[eventId]);
+  }
+
 
 }

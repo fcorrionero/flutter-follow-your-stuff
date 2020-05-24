@@ -7,4 +7,6 @@ abstract class EventRepository {
 
   void insertEvent(EventDTO event);
 
+  Future<void> deleteEvent(int eventId);
+
 }
