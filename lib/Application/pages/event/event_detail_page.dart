@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:followyourstuff/Domain/Aggregate/EventAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/EventRepository.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/SqliteEventRepository.dart';
+import 'package:followyourstuff/injection.dart';
 
 class EventPage extends StatefulWidget {
 
@@ -16,7 +16,7 @@ class EventPage extends StatefulWidget {
 
 class _EventPageState extends State<EventPage> {
 
-  EventRepository eventRepository = SqliteEventRepository();
+  EventRepository eventRepository = getIt<EventRepository>();
 
   @override
   Widget build(BuildContext context) {

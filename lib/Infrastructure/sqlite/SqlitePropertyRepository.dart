@@ -2,7 +2,10 @@ import 'package:followyourstuff/Application/DTO/PropertyDTO.dart';
 import 'package:followyourstuff/Domain/Aggregate/PropertyAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/PropertyRepository.dart';
 import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'package:followyourstuff/injection.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable(as: PropertyRepository, env: Env.prod)
 class SqlitePropertyRepository implements PropertyRepository {
 
   @override

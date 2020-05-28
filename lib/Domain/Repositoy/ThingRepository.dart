@@ -1,4 +1,3 @@
-
 import 'package:followyourstuff/Application/DTO/ThingDTO.dart';
 import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
 

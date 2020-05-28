@@ -23,8 +23,8 @@ dependencies:
   path:
   intl:
   datetime_picker_formfield: ^1.0.0
-  inject:
-    path: ./vendor/inject.dart/package/inject
+  injectable:
+  get_it:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -34,6 +34,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  injectable_generator:
+  build_runner:
 
 
 # For information on the generic Dart part of this file, see the

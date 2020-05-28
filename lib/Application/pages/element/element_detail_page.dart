@@ -7,8 +7,7 @@ import 'package:followyourstuff/Domain/Aggregate/PropertyAggregate.dart';
 import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/EventRepository.dart';
 import 'package:followyourstuff/Domain/Repositoy/PropertyRepository.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/SqliteEventRepository.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/SqlitePropertyRepository.dart';
+import 'package:followyourstuff/injection.dart';
 import 'package:intl/intl.dart';
 
 class ElementPage extends StatefulWidget {
@@ -26,9 +25,8 @@ class _ElementPageState extends State<ElementPage> {
   List<EventAggregate> events = [];
   List<PropertyAggregate> eventTypes = [];
 
-  EventRepository repository = SqliteEventRepository();
-  PropertyRepository propertyRepository = SqlitePropertyRepository();
-
+  final EventRepository repository = getIt<EventRepository>();
+  final PropertyRepository propertyRepository = getIt<PropertyRepository>();
   @override
   void initState() {
     this.refresh();

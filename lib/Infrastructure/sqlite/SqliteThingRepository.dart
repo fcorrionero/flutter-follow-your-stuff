@@ -2,7 +2,10 @@ import 'package:followyourstuff/Application/DTO/ThingDTO.dart';
 import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/ThingRepository.dart';
 import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'package:followyourstuff/injection.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable(as: ThingRepository, env: Env.prod)
 class SqliteThingRepository implements ThingRepository {
 
   @override

@@ -2,7 +2,10 @@ import 'package:followyourstuff/Application/DTO/ElementDTO.dart';
 import 'package:followyourstuff/Domain/Aggregate/ElementAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/ElementRepository.dart';
 import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'package:followyourstuff/injection.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable(as: ElementRepository, env: Env.prod)
 class SqliteElementRepository implements ElementRepository {
 
   @override

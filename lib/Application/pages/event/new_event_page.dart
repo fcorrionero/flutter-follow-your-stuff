@@ -7,8 +7,7 @@ import 'package:followyourstuff/Domain/Aggregate/PropertyAggregate.dart';
 import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/EventRepository.dart';
 import 'package:followyourstuff/Domain/Repositoy/PropertyRepository.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/SqliteEventRepository.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/SqlitePropertyRepository.dart';
+import 'package:followyourstuff/injection.dart';
 import 'package:intl/intl.dart';
 
 class NewEventForm extends StatefulWidget {
@@ -30,8 +29,8 @@ class NewEventForm extends StatefulWidget {
 class NewEventFormState extends State<NewEventForm> {
   final _formKey = GlobalKey<FormState>();
 
-  EventRepository repository = SqliteEventRepository();
-  PropertyRepository propertyRepository = SqlitePropertyRepository();
+  EventRepository repository = getIt<EventRepository>();
+  PropertyRepository propertyRepository = getIt<PropertyRepository>();
 
   TextEditingController descriptionController = TextEditingController();
   TextEditingController dateController = TextEditingController();

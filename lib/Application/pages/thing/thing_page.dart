@@ -4,12 +4,12 @@ import 'package:followyourstuff/Application/pages/element/new_element_page.dart'
 import 'package:followyourstuff/Domain/Aggregate/ElementAggregate.dart';
 import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/ElementRepository.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/SqliteElementRepository.dart';
+import 'package:followyourstuff/injection.dart';
 import 'package:intl/intl.dart';
 
 class ThingPage extends StatefulWidget {
 
-  ThingAggregate thing;
+  final ThingAggregate thing;
 
   ThingPage({Key key, @required this.thing}) : super(key: key);
 
@@ -21,8 +21,7 @@ class ThingPage extends StatefulWidget {
 class _ThingPageState extends State<ThingPage> {
 
   List<ElementAggregate> elements = [];
-
-  ElementRepository elementRepository = SqliteElementRepository();
+  final ElementRepository elementRepository = getIt<ElementRepository>();
 
   @override
   void initState() {
@@ -31,7 +30,7 @@ class _ThingPageState extends State<ThingPage> {
   }
 
   void refresh() async {
-    this.elements = await elementRepository.findElementsByThingId(widget.thing.id);
+    this.elements = await this.elementRepository.findElementsByThingId(widget.thing.id);
     setState(() { });
   }
 

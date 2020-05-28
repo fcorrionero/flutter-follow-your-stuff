@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter/rendering.dart';
 import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'package:followyourstuff/injection.dart';
 import 'Application/pages/home_page.dart';
 
 void main() async{
+
+  configureInjection(Env.prod);
+
   WidgetsFlutterBinding.ensureInitialized();
   //debugPaintPointersEnabled = true;
   await DB.init();

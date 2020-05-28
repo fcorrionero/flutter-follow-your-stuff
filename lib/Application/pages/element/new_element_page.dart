@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:followyourstuff/Application/DTO/ElementDTO.dart';
 import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/ElementRepository.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/SqliteElementRepository.dart';
+import 'package:followyourstuff/injection.dart';
 
 class NewElementForm extends StatefulWidget {
 
@@ -23,7 +23,7 @@ class NewElementFormState extends State<NewElementForm> {
 
   final _elementNameController = TextEditingController();
 
-  ElementRepository elementRepository = SqliteElementRepository();
+  ElementRepository elementRepository = getIt<ElementRepository>();
 
   createState() {
 

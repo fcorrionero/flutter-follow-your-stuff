@@ -3,7 +3,7 @@ import 'package:followyourstuff/Application/pages/thing/new_thing_page.dart';
 import 'package:followyourstuff/Application/pages/thing/thing_page.dart';
 import 'package:followyourstuff/Domain/Aggregate/ThingAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/ThingRepository.dart';
-import 'package:followyourstuff/Infrastructure/sqlite/SqliteThingRepository.dart';
+import 'package:followyourstuff/injection.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
 
   List<ThingAggregate> things = [];
 
-  ThingRepository thingRepository = SqliteThingRepository();
+  ThingRepository thingRepository = getIt<ThingRepository>();
 
   @override
   void initState() {

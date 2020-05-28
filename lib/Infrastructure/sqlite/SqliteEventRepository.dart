@@ -2,7 +2,10 @@ import 'package:followyourstuff/Application/DTO/EventDTO.dart';
 import 'package:followyourstuff/Domain/Aggregate/EventAggregate.dart';
 import 'package:followyourstuff/Domain/Repositoy/EventRepository.dart';
 import 'package:followyourstuff/Infrastructure/sqlite/db.dart';
+import 'package:followyourstuff/injection.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable(as: EventRepository, env: Env.prod)
 class SqliteEventRepository implements EventRepository {
   @override
   Future<List<EventAggregate>> findEventsByElementId(int elementId) async {
